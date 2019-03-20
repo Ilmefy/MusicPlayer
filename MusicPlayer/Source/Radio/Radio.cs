@@ -35,7 +35,7 @@ namespace MusicPlayer
                 }
                 if (Source.Global.RadioInitiated == false)
                 {
-                    wo.Volume = 0.0f;
+                    wo.Volume = 1.0f;
                     Source.Global.RadioInitiated = true;
                 }
        

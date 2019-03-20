@@ -22,17 +22,9 @@ namespace MusicPlayer.UI.Controls
             Slider.Maximum = Length;
             Slider.Value = progress;
         }
-        private void ChangeValue()
-        {
-
-        }
-
-
-
-
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (System.Windows.Input.Mouse.LeftButton == System.Windows.Input.MouseButtonState.Released)
+            if (System.Windows.Input.Mouse.LeftButton == System.Windows.Input.MouseButtonState.Released || Slider.IsMouseCaptured==false)
                 return;
             Sliding = true;
             Radio.UpdateCurrentTime(Slider.Value);
