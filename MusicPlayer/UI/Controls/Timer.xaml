@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="MusicPlayer.Timer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MusicPlayer"
+             mc:Ignorable="d" 
+             d:DesignHeight="64" d:DesignWidth="64">
+    <Grid Name="Container">
+        <Label Name="Time_Label"  Foreground="White" FontSize="50" Margin="0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black"/>
+    </Grid>
+    <!-- <Border Name="TimeBorder" BorderThickness="3">
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF616161" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+                <GradientStop Color="White" Offset="0.549"/>
+                <GradientStop Color="#FF616161" Offset="0.548"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        
+    </Border>-->
+
+</UserControl>
