@@ -9,6 +9,8 @@ namespace MusicPlayer.Source.Music
             string Data = System.IO.File.ReadAllText(Constants.TrackListPath);
             TrackCollection trackCollection = Newtonsoft.Json.JsonConvert.DeserializeObject<TrackCollection>(Data);
 
+            //Remove Duplicates
+            trackCollection.Tracks = trackCollection.Tracks.Distinct(new TrackDataEqualityComparer()).ToList();
             //To prevent null's in Description
             foreach (Track s in trackCollection.Tracks)
             {

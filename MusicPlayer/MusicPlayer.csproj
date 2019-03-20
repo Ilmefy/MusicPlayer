@@ -168,6 +168,7 @@
     <Compile Include="UI\Elements\RadioTab.xaml.cs">
       <DependentUpon>RadioTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\StyleTemplates.cs" />
     <Compile Include="UI\UiManager.cs" />
     <Page Include="UI\Controls\RadioElement.xaml">
       <SubType>Designer</SubType>
@@ -382,6 +383,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\playlist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\Next.png" />
+    <Resource Include="UI\Icons\previous.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

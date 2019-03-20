@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="80" d:DesignWidth="1000">
     <Border MinHeight="35" BorderThickness="0,0,0,1" BorderBrush="#0C000000">
-        
-    
-    <Grid Name="Main" MouseEnter="Grid_MouseEnter" MouseLeave="Main_MouseLeave" Background="#00000000">
+
+
+        <Grid Name="Main" MouseEnter="Grid_MouseEnter" MouseLeave="Main_MouseLeave" Background="#00000000">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="4*"/>

@@ -264,6 +264,6 @@
 
 
     <Grid>
-        <Slider Name="Slider" Style="{DynamicResource SliderStyle1}" ValueChanged="Slider_ValueChanged" Thumb.DragCompleted="Slider_DragCompleted"  Maximum="100"  />
+        <Slider Name="Slider" Style="{DynamicResource SliderStyle1}"  Thumb.DragDelta="Slider_DragDelta" Thumb.DragCompleted="Slider_DragCompleted"  Maximum="800"  />
     </Grid>
 </UserControl>

@@ -7,6 +7,7 @@ namespace MusicPlayer.Source.Music
         public string Title { get; set; }    
         public string Author { get; set; }
         public string Length { get; set; }
+        public double LengthDouble { get; set; }
         public string Path { get; set; }
         private bool _favourite;
         public bool Favourite

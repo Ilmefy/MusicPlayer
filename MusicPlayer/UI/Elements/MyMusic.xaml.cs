@@ -16,10 +16,11 @@ namespace MusicPlayer.UI.Elements
         public MyMusic()
         {
             InitializeComponent();
-            
+
         }
         private bool _MusicSearcher;
 
+        private bool OrderedAscending = false;
         public bool MusicSearcher
         {
             get { return _MusicSearcher; }
@@ -32,7 +33,7 @@ namespace MusicPlayer.UI.Elements
                 FindMusic.Visibility = System.Windows.Visibility.Visible;
                 return;
             }
-               
+
             FindMusic.Visibility = System.Windows.Visibility.Hidden;
         }
         [DebuggerStepThrough]
@@ -56,7 +57,7 @@ namespace MusicPlayer.UI.Elements
             System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
             da.From = i.ActualWidth;
 
-            da.To = i.ActualWidth / 1.5f ;
+            da.To = i.ActualWidth / 1.5f;
             da.Duration = TimeSpan.FromSeconds(0.1f);
             i.BeginAnimation(WidthProperty, da);
             i.BeginAnimation(HeightProperty, da);
@@ -81,9 +82,40 @@ namespace MusicPlayer.UI.Elements
                 Author = Track.Author,
                 Length = Track.Length,
                 name = Track.Title,
-                Track = Track
+                Track = Track,
+                Added=AddedToText(Track.DateOfAdding),
             };
             StackPanel.Children.Add(se);
+        }
+        private string AddedToText(DateTime dateTime)
+        {
+            TimeSpan timeSpan = DateTime.Now - dateTime;
+            int minutes =(int)timeSpan.TotalMinutes;
+            int days = (int)timeSpan.TotalDays;
+            int Months = (int)timeSpan.TotalDays / 30;
+            if (minutes <= 1)
+                return "Minutę temu";
+            if (minutes > 1 && minutes < 60)
+                return $"{minutes}min temu";
+            if(timeSpan.TotalHours<24)
+            {
+                return $"{timeSpan.TotalHours}godzin temu";
+            }
+            if (timeSpan.TotalDays == 1)
+                return "wczoraj";
+            if(days > 1 && days < 7)
+            {
+                return $"{timeSpan.TotalDays}dni temu";
+            }
+            if (days >= 7 && days < 14)
+                return "Tydzień temu";
+            if (days >= 14 && days < 21)
+                return "Dwa tygodnie temu";
+            if (days >= 21 && days < 28)
+                return "Trzy tygodnie temu";
+            if (days >= 28)
+                return $"{Months}m temu";
+            return "";
         }
         private void CreateSongElement(List<string> files)
         {
@@ -105,7 +137,12 @@ namespace MusicPlayer.UI.Elements
 
                 Source.Music.Track tr = new Source.Music.Track();
                 References.trackCollection.Tracks.Add(tr);
-                tr.Path = s; tr.Length = length; tr.Title = title; tr.Author = author;tr.DateOfAdding = DateTime.Now;
+                tr.Path = s;
+                tr.Length = length;
+                tr.Title = title;
+                tr.Author = author;
+                tr.DateOfAdding = DateTime.Now;
+                tr.LengthDouble = GetLengthToDouble(s);
                 tracks.Add(tr);
                 UI.Controls.SongElement se = new Controls.SongElement()
                 {
@@ -113,7 +150,7 @@ namespace MusicPlayer.UI.Elements
                     Author = author,
                     Length = length,
                     Track = tr,
-                    
+
                 };
                 StackPanel.Children.Add(se);
             }
@@ -121,80 +158,108 @@ namespace MusicPlayer.UI.Elements
         }
 
 
-    
-    private void CreateSongData(string Title, string Author, string Length, string Path)
-    {
-        string data = $"{{\"Name\":{Title},\"Author\":{Author},\"Length\":\"{Length}\",\"Path\":{Path}}}";
 
-    }
-    private string GetLength(string Path)
-    {
-        NAudio.Wave.Mp3FileReader mp3FileReader;
-        NAudio.Wave.WaveFileReader waveFileReader;
-        TimeSpan timeSpan = new TimeSpan();
-        try
+        private void CreateSongData(string Title, string Author, string Length, string Path)
         {
-            if (System.IO.Path.GetExtension(Path) == ".mp3")
+            string data = $"{{\"Name\":{Title},\"Author\":{Author},\"Length\":\"{Length}\",\"Path\":{Path}}}";
+
+        }
+        private double GetLengthToDouble(string Path)
+        {
+            NAudio.Wave.Mp3FileReader mp3FileReader;
+            NAudio.Wave.WaveFileReader waveFileReader;
+            TimeSpan timeSpan = new TimeSpan();
+            try
             {
-                mp3FileReader = new NAudio.Wave.Mp3FileReader(Path);
-                timeSpan = mp3FileReader.TotalTime;
-                mp3FileReader.Dispose();
+                if (System.IO.Path.GetExtension(Path) == ".mp3")
+                {
+                    mp3FileReader = new NAudio.Wave.Mp3FileReader(Path);
+                    timeSpan = mp3FileReader.TotalTime;
+                    mp3FileReader.Dispose();
+                }
+                if (System.IO.Path.GetExtension(Path) == ".wav")
+                {
+                    waveFileReader = new NAudio.Wave.WaveFileReader(Path);
+                    waveFileReader.Dispose();
+                    timeSpan = waveFileReader.TotalTime;
+                }
+                return timeSpan.TotalSeconds;
             }
-            if (System.IO.Path.GetExtension(Path) == ".wav")
+            catch (Exception)
             {
-                waveFileReader = new NAudio.Wave.WaveFileReader(Path);
-                waveFileReader.Dispose();
-                timeSpan = waveFileReader.TotalTime;
+                return 0.0d;
+                
             }
-            int dd = timeSpan.Days;
-            int hh = timeSpan.Hours;
-            int mm = timeSpan.Minutes;
-            int ss = timeSpan.Seconds;
-            string t = "";
-            if (dd > 0)
-                t += $"{dd}D:";
-            if (hh > 0)
-                t += $"{hh}H:";
-            if (mm > 0)
-                t += $"{mm}M:";
-            if (ss > 0)
-                t += $"{ss}s";
-            return t;
 
         }
-        catch (Exception)
+        private string GetLength(string Path)
         {
+            NAudio.Wave.Mp3FileReader mp3FileReader;
+            NAudio.Wave.WaveFileReader waveFileReader;
+            TimeSpan timeSpan = new TimeSpan();
+            try
+            {
+                if (System.IO.Path.GetExtension(Path) == ".mp3")
+                {
+                    mp3FileReader = new NAudio.Wave.Mp3FileReader(Path);
+                    timeSpan = mp3FileReader.TotalTime;
+                    mp3FileReader.Dispose();
+                }
+                if (System.IO.Path.GetExtension(Path) == ".wav")
+                {
+                    waveFileReader = new NAudio.Wave.WaveFileReader(Path);
+                    waveFileReader.Dispose();
+                    timeSpan = waveFileReader.TotalTime;
+                }
+                int dd = timeSpan.Days;
+                int hh = timeSpan.Hours;
+                int mm = timeSpan.Minutes;
+                int ss = timeSpan.Seconds;
+                string t = "";
+                if (dd > 0)
+                    t += $"{dd}D:";
+                if (hh > 0)
+                    t += $"{hh}H:";
+                if (mm > 0)
+                    t += $"{mm}M:";
+                if (ss > 0)
+                    t += $"{ss}s";
+                return t;
 
-            return "";
+            }
+            catch (Exception)
+            {
+
+                return "";
+            }
+
         }
-
-    }
-    private string[] GetName(string FileName)
-    {
-        string[] data = new string[2];
-        Regex regex = new Regex("(.*)-(.*)");
-        FileName = System.IO.Path.GetFileNameWithoutExtension(FileName);
-        Match match = regex.Match(FileName);
-        string patternAuthor = "-(.*)";
-        string patternTitle = "(.*)-";
-        string Author = Regex.Replace(match.ToString(), patternAuthor, "");
-
-        string Title = Regex.Replace(match.ToString(), patternTitle, "");
-
-        if (!String.IsNullOrEmpty(Author))
+        private string[] GetName(string FileName)
         {
-            data[0] = Author;
+            string[] data = new string[2];
+            Regex regex = new Regex("(.*)-(.*)");
+            FileName = System.IO.Path.GetFileNameWithoutExtension(FileName);
+            Match match = regex.Match(FileName);
+            string patternAuthor = "-(.*)";
+            string patternTitle = "(.*)-";
+            string Author = Regex.Replace(match.ToString(), patternAuthor, "");
 
+            string Title = Regex.Replace(match.ToString(), patternTitle, "");
+
+            if (!String.IsNullOrEmpty(Author))
+            {
+                data[0] = Author;
+
+            }
+            else
+                data[0] = "";
+            if (String.IsNullOrEmpty(Title))
+                data[1] = FileName;
+            else
+                data[1] = Title;
+
+            return data;
         }
-        else
-            data[0] = "";
-        if (String.IsNullOrEmpty(Title))
-            data[1] = FileName;
-        else
-            data[1] = Title;
-
-        return data;
-    }
 
         private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
@@ -204,6 +269,61 @@ namespace MusicPlayer.UI.Elements
                 Dialog.ShowDialog();
                 SearchAudioFiles(Dialog.SelectedPath);
             }
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void OrderByNameButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!OrderedAscending)
+            {
+                UI.UiManager.OrderTrackByName(OrderedAscending);
+                OrderedAscending = true;
+                return;
+            }
+            UI.UiManager.OrderTrackByName(OrderedAscending);
+            OrderedAscending = false;
+
+
+        }
+
+        private void OrderByAuthor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!OrderedAscending)
+            {
+                UI.UiManager.OrderTrackByAuthor(OrderedAscending);
+                OrderedAscending = true;
+                return;
+            }
+            UI.UiManager.OrderTrackByAuthor(OrderedAscending);
+            OrderedAscending = false;
+        }
+
+        private void OrderByLength_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!OrderedAscending)
+            {
+                UI.UiManager.OrderTrackByLength(OrderedAscending);
+                OrderedAscending = true;
+                return;
+            }
+            UI.UiManager.OrderTrackByLength(OrderedAscending);
+            OrderedAscending = false;
+        }
+
+        private void OrderByAddingDate_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!OrderedAscending)
+            {
+                UI.UiManager.OrderTrackByDateOfAdding(OrderedAscending);
+                OrderedAscending = true;
+                return;
+            }
+            UI.UiManager.OrderTrackByDateOfAdding(OrderedAscending);
+            OrderedAscending = false;
         }
     }
 }

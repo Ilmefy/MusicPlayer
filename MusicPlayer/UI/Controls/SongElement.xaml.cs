@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -168,10 +169,10 @@ namespace MusicPlayer.UI.Controls
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-          
+            
             if (Source.Global.PlaysMusic)
             {
-
+                ChangeProgress(1, 2);
                 //prevent from starting again same track
                 if (Source.Global.Player == this)
                 {
@@ -193,7 +194,7 @@ namespace MusicPlayer.UI.Controls
                     Source.Global.cancellationTokenSource = tokenSource;
                     System.Threading.CancellationToken ct = tokenSource.Token;
                     Source.Global.PlayerTask = Task.Factory.StartNew(() => { Radio.Play(_track.Path, this); }, ct);
-                    
+
 
 
                     Source.Global.PlaysMusic = true;
@@ -210,7 +211,7 @@ namespace MusicPlayer.UI.Controls
                     Radio.Resume();
                     return;
                 }
-               
+
                 Source.Global.Player = this;
                 Source.Global.PlaysMusic = true;
                 Source.Global.PlayerTaskPaused = false;
@@ -218,7 +219,7 @@ namespace MusicPlayer.UI.Controls
                 Source.Global.cancellationTokenSource = tokenSource;
                 System.Threading.CancellationToken ct = tokenSource.Token;
 
-                Source.Global.PlayerTask = Task.Factory.StartNew(() => { Radio.Play(_track.Path, this); },ct);
+                Source.Global.PlayerTask = Task.Factory.StartNew(() => { Radio.Play(_track.Path, this); }, ct);
             }
         }
         public SongElement AddElement(Source.Music.Track t)
@@ -232,17 +233,6 @@ namespace MusicPlayer.UI.Controls
             };
             return se;
         }
-        [DebuggerStepThrough]
-        private void Image_MouseEnter_1(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void PlayButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             if (Favourite)
@@ -258,6 +248,31 @@ namespace MusicPlayer.UI.Controls
                 //if(MainWindow.Instance.)
                 //    MainWindow.Instance._MyFavourite.StackPanel.Children.Add(DeepCopy());
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Passed">How much time passed in seconds</param>
+        /// <param name="Length">Total length of Track in seconds</param>
+        public void ChangeProgress(double Passed, double Length)
+        {
+            throw new NotImplementedException();
+            Color ProgressColor = (Color)ColorConverter.ConvertFromString("#7F007415");
+            Color BackgroundColor = (Color)ColorConverter.ConvertFromString("#00000000");
+            double Progress = Passed / Length;
+            GradientStop gradientStop1 = new GradientStop(ProgressColor,0);
+            GradientStop gradientStop2 = new GradientStop(ProgressColor,Progress);
+            GradientStop gradientStop3 = new GradientStop(BackgroundColor,(Progress+0.1d));
+            GradientStop gradientStop4 = new GradientStop(BackgroundColor,1.0d);
+            GradientStopCollection gradientStops = new GradientStopCollection();
+            gradientStops.Add(gradientStop1);
+            gradientStops.Add(gradientStop2);
+            gradientStops.Add(gradientStop3);
+            gradientStops.Add(gradientStop4);
+            LinearGradientBrush linearGradientBrush = new LinearGradientBrush(gradientStops);
+            linearGradientBrush.StartPoint = new Point(0.5, 0);
+            linearGradientBrush.EndPoint = new Point(0.5, 1);
+            Main.Background = linearGradientBrush;
         }
     }
 }

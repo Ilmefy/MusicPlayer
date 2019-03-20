@@ -36,19 +36,15 @@ namespace MusicPlayer
             AppInitializer.Initialize();
             UI.UiManager.SetTabControlWindow(Window.Home);
             CurrentWindow = Window.Home;
-            Source.Radio.RadioInit.LoadData();
-            //Source.Radio.RadioInit.LoadData();
-            Source.Music.TrackInit.Init();
+            Task.Factory.StartNew(()=> MainWindow.Instance.Dispatcher.Invoke(() => Source.Radio.RadioInit.LoadData()));
+            Task.Factory.StartNew(()=> MainWindow.Instance.Dispatcher.Invoke(()=> Source.Music.TrackInit.Init()));
             Music m = new Music();
-            string URL = "https://stream.open.fm/109?type=.aac&user=800086344018&player_group=WWW&user-agent=OpenFM-Chameleon%2F1.103.0062%20(BROWSER%3BChrome%3B72.0.3626.121)%20(OS%3BWindows%3BWindows%20NT%2010.0)";
+
+
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
-
-
-
-
-            StationCollection s = References.stationCollection;
             Source.Global.AppInitialized = true;
+          
 
         }
         private void Window_KeyDown(object sender, RoutedEventArgs e )
@@ -57,7 +53,8 @@ namespace MusicPlayer
             switch((e as KeyEventArgs).Key)
             {
                 case Key.Space:
-                    Radio.Pause();
+                  
+                //    Radio.Pause();
                     break;
                 
             }
@@ -140,6 +137,29 @@ namespace MusicPlayer
             //double TrackLength = Radio.TrackLength;
             //double seconds = TrackLength * value;
             //Radio.UpdateCurrentTime(seconds);
+        }
+
+        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        {
+            System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
+            da.From = (sender as Image).ActualWidth;
+            da.To= (sender as Image).ActualWidth*1.25f;
+            da.Duration = TimeSpan.FromSeconds(0.1f);
+            (sender as Image).BeginAnimation(WidthProperty, da);
+        }
+
+        private void Image_MouseLeave(object sender, MouseEventArgs e)
+        {
+            double To = 0;
+            if ((sender as Image).Name == "PlayButton")
+                To = 45;
+            else
+                To = 35;
+            System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
+            da.From = (sender as Image).ActualWidth;
+            da.To = To;
+            da.Duration = TimeSpan.FromSeconds(0.1f);
+            (sender as Image).BeginAnimation(WidthProperty, da);
         }
     }
 }
