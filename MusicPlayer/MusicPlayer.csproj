@@ -134,7 +134,14 @@
     <Compile Include="Source\Music\TrackData.cs" />
     <Compile Include="Source\Music\TrackDataEqualityComparer.cs" />
     <Compile Include="Source\Music\TrackInit.cs" />
+    <Compile Include="Source\Playlist\Playlist.cs" />
+    <Compile Include="Source\Playlist\PlaylistCollection.cs" />
+    <Compile Include="Source\Playlist\PlaylistInit.cs" />
+    <Compile Include="Source\Playlist\PlayListManager.cs" />
     <Compile Include="Source\Radio\RadioInit.cs" />
+    <Compile Include="UI\Controls\CreatePlaylistPopUp_Name.xaml.cs">
+      <DependentUpon>CreatePlaylistPopUp_Name.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\RadioElement.xaml.cs">
       <DependentUpon>RadioElement.xaml</DependentUpon>
     </Compile>
@@ -170,6 +177,10 @@
     </Compile>
     <Compile Include="UI\StyleTemplates.cs" />
     <Compile Include="UI\UiManager.cs" />
+    <Page Include="UI\Controls\CreatePlaylistPopUp_Name.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Controls\RadioElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UI\Styles\ContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Styles\ScrollBar.xaml">
       <SubType>Designer</SubType>

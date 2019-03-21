@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 
 namespace MusicPlayer.Source.Music
 {
@@ -6,6 +7,9 @@ namespace MusicPlayer.Source.Music
     {
         public static void Init()
         {
+            
+            if (!TrackListFileExist())
+                CreateTrackListFile();
             string Data = System.IO.File.ReadAllText(Constants.TrackListPath);
             TrackCollection trackCollection = Newtonsoft.Json.JsonConvert.DeserializeObject<TrackCollection>(Data);
 
@@ -33,6 +37,20 @@ namespace MusicPlayer.Source.Music
                     Fav.AddElement(t);
 
             }
+        }
+        private static bool TrackListFileExist()
+        {
+            if (File.Exists(Constants.TrackListPath))
+                return true;
+            return false;
+        }
+        private static void CreateTrackListFile()
+        {
+            var file = File.Create(Constants.TrackListPath);
+            file.Close();
+            file.Dispose();
+            File.WriteAllText(Constants.TrackListPath, "{\"Tracks\":[]}");
+            
         }
     }
 

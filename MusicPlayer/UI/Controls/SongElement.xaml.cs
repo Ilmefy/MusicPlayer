@@ -256,23 +256,23 @@ namespace MusicPlayer.UI.Controls
         /// <param name="Length">Total length of Track in seconds</param>
         public void ChangeProgress(double Passed, double Length)
         {
-            throw new NotImplementedException();
-            Color ProgressColor = (Color)ColorConverter.ConvertFromString("#7F007415");
-            Color BackgroundColor = (Color)ColorConverter.ConvertFromString("#00000000");
-            double Progress = Passed / Length;
-            GradientStop gradientStop1 = new GradientStop(ProgressColor,0);
-            GradientStop gradientStop2 = new GradientStop(ProgressColor,Progress);
-            GradientStop gradientStop3 = new GradientStop(BackgroundColor,(Progress+0.1d));
-            GradientStop gradientStop4 = new GradientStop(BackgroundColor,1.0d);
-            GradientStopCollection gradientStops = new GradientStopCollection();
-            gradientStops.Add(gradientStop1);
-            gradientStops.Add(gradientStop2);
-            gradientStops.Add(gradientStop3);
-            gradientStops.Add(gradientStop4);
-            LinearGradientBrush linearGradientBrush = new LinearGradientBrush(gradientStops);
-            linearGradientBrush.StartPoint = new Point(0.5, 0);
-            linearGradientBrush.EndPoint = new Point(0.5, 1);
-            Main.Background = linearGradientBrush;
+        
+            //Color ProgressColor = (Color)ColorConverter.ConvertFromString("#7F007415");
+            //Color BackgroundColor = (Color)ColorConverter.ConvertFromString("#00000000");
+            //double Progress = Passed / Length;
+            //GradientStop gradientStop1 = new GradientStop(ProgressColor,0);
+            //GradientStop gradientStop2 = new GradientStop(ProgressColor,Progress);
+            //GradientStop gradientStop3 = new GradientStop(BackgroundColor,(Progress+0.1d));
+            //GradientStop gradientStop4 = new GradientStop(BackgroundColor,1.0d);
+            //GradientStopCollection gradientStops = new GradientStopCollection();
+            //gradientStops.Add(gradientStop1);
+            //gradientStops.Add(gradientStop2);
+            //gradientStops.Add(gradientStop3);
+            //gradientStops.Add(gradientStop4);
+            //LinearGradientBrush linearGradientBrush = new LinearGradientBrush(gradientStops);
+            //linearGradientBrush.StartPoint = new Point(0.5, 0);
+            //linearGradientBrush.EndPoint = new Point(0.5, 1);
+            //Main.Background = linearGradientBrush;
         }
     }
 }

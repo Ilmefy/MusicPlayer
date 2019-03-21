@@ -18,19 +18,25 @@ namespace MusicPlayer
         /// <param name="sender"></param>
         public static void Play(string Url, object sender)
         {
-
+            bool PlayingRadio = false;
             if (woe!=null)
                 woe.Dispose();
-            using (var mf = new MediaFoundationReader(Url))               
+            using (var mf = new MediaFoundationReader(Url))        
             using (var wo = new WaveOutEvent())
             {
                 mediaFoundationReader = mf;
                 wo.Init(mf);
 
                 if (Url.StartsWith("http"))
+                {
                     TrackLength = 0;
+                    PlayingRadio = true;
+                    UI.UiManager.HideTrackPositionSlider();
+                }
+                    
                 else
                 {
+                    UI.UiManager.ShowTrackPositionSlider();
                     TrackLength = mf.TotalTime.TotalSeconds;
                 }
                 if (Source.Global.RadioInitiated == false)
@@ -41,16 +47,19 @@ namespace MusicPlayer
        
                 woe = wo;
                 woe.Play();
-                    while (!Source.Global.PlayerTaskPaused && wo.PlaybackState == PlaybackState.Playing)
+                    while (Source.Global.PlayerTaskPaused==false && wo.PlaybackState == PlaybackState.Playing)
                     {
 
+                    if(!PlayingRadio)
+                    {
+                        Position = mf.CurrentTime.TotalSeconds;
+                        MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.trackPositionSlider.StartUpdating(Position, TrackLength));
+                        if (wo.PlaybackState != PlaybackState.Playing)
+                            Source.Global.PlayerTaskPaused = true;
 
-                            Position = mf.CurrentTime.TotalSeconds;
-                            MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.trackPositionSlider.StartUpdating(Position,TrackLength));
-                            if (wo.PlaybackState != PlaybackState.Playing)
-                                Source.Global.PlayerTaskPaused = true;
-                        
-                        System.Threading.Thread.Sleep(1000);                    
+                    }
+
+                    System.Threading.Thread.Sleep(1000);                    
                     }
                 
                 mf.Dispose();

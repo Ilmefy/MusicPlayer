@@ -199,18 +199,16 @@ namespace MusicPlayer.Controls
                 return;
             }
             else
-            {   
+            {
+                Source.Global.PlayerTaskPaused = false;
                 Task.Factory.StartNew(() => Radio.Play(station.Urls[0], null));
                 Plays = true;
                 Stopwatch sw = new Stopwatch();
-                sw.Start();
                 foreach (RadioElement re in MainWindow.Instance.Tab_Radio.StationList.Children)
                 {
                     re.PlayButton.Source = new BitmapImage(new Uri("/UI/Icons/play.png", UriKind.Relative));
                     re.Plays = false;
                 }
-                sw.Stop();
-                sw.Stop();
                 PlayButton.Source = new BitmapImage(new Uri("/UI/Icons/pause.png", UriKind.Relative));
             }
 

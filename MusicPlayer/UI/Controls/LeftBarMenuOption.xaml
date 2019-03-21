@@ -9,7 +9,7 @@
     <Border BorderThickness="0,0,0,1" BorderBrush="#0C000000" >
         <Grid  MinHeight="60" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave"  >
             <Grid MouseEnter="Label_MouseEnter">
-                <Image Name="Icon" Height="30"  MouseEnter="Label_MouseEnter"  Width="30" VerticalAlignment="Center" HorizontalAlignment="Left"  Source="/UI/Icons/Home.png" />
+                <Image Name="Icon" Height="30"  MouseEnter="Label_MouseEnter"  Width="30" VerticalAlignment="Center" HorizontalAlignment="Left"  />
                 <Label Name="Label"   Content="Twoja muzyka" VerticalAlignment="Center" Foreground="#FFA6A6A6" FontFamily="Arial" Margin="40,0,0,0" FontSize="16" />
             </Grid>
 

@@ -22,9 +22,7 @@
         }
         private static void TrackListExist()
         {
-            if (System.IO.File.Exists(Source.Constants.TrackListPath))
-                return;
-            System.IO.File.Create(Source.Constants.TrackListPath);
+
         }
         private static void CreateTrackList()
         {

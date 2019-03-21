@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="MusicPlayer.UI.Controls.Notification"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MusicPlayer.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="800">
+    <Grid>
+        <Border Background="#4C000000" >
+            <Grid>
+                <Label x:Name="TextLabel" Content="xd" VerticalAlignment="Top" HorizontalAlignment="Center" FontFamily="/MusicPlayer;component/UI/Fonts/RobotoFont/#Roboto" Foreground="White" FontSize="20"/>
+                <Border MouseEnter="Border_MouseEnter"     Height="30" CornerRadius="15" Margin="0,0,200,10" VerticalAlignment="Bottom"  Width="80" Background="#FF19A413">
+                    <Label  x:Name="Answer1Label" Content="xd" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="/MusicPlayer;component/UI/Fonts/RobotoFont/#Roboto" Foreground="White" FontSize="20"/>
+                </Border>
+                <Border Height="30" CornerRadius="15" Margin="200,0,0,10" VerticalAlignment="Bottom"  Width="80" Background="#FFC74C4C">
+                    <Label x:Name="Answer2Label" Content="xd" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="/MusicPlayer;component/UI/Fonts/RobotoFont/#Roboto" Foreground="White" FontSize="20"/>
+                </Border>
+            </Grid>
+           
+            
+        </Border>
+    </Grid>
+</UserControl>

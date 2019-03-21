@@ -1,7 +1,10 @@
 ﻿using MusicPlayer.Source.Music;
+using MusicPlayer.Source.Playlist;
+using MusicPlayer.Source.Radio;
 using MusicPlayer.UI.Controls;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace MusicPlayer.UI
 {
@@ -26,11 +29,11 @@ namespace MusicPlayer.UI
         }
         public static void HideTrackPositionSlider()
         {
-            MainWindow.Instance.trackPositionSlider.Visibility = System.Windows.Visibility.Collapsed;
+            mw.Dispatcher.Invoke(() => mw.Dispatcher.Invoke(() => mw.trackPositionSlider.Visibility = System.Windows.Visibility.Collapsed));
         }
         public static void ShowTrackPositionSlider()
         {
-            MainWindow.Instance.trackPositionSlider.Visibility = System.Windows.Visibility.Visible;
+            mw.Dispatcher.Invoke(()=> mw.Dispatcher.Invoke(()=>mw.trackPositionSlider.Visibility = System.Windows.Visibility.Visible));
         }
         public static void OrderTrackByName(bool OrderAscending)
         {
@@ -92,6 +95,34 @@ namespace MusicPlayer.UI
                 }
                 i++;
             }
+        }
+        public  static void GeneratePlaylistControls()
+        {
+            if (References.playlistCollection.Playlists.Any())
+            {
+                foreach (Playlist p in References.playlistCollection.Playlists)
+                {
+                    LeftBarMenuOption leftBarMenuOption = new LeftBarMenuOption()
+                    {
+                        MenuTitle = p.Name,
+                        HorizontalAlignment =System.Windows.HorizontalAlignment.Stretch,
+                        VerticalAlignment=System.Windows.VerticalAlignment.Top,
+                    };
+                    System.Windows.Controls.Grid.SetRow(leftBarMenuOption, 1);
+                    System.Threading.Tasks.Task.Factory.StartNew(()=> MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.PlaylistListContainer.Children.Add(leftBarMenuOption)));
+                }
+            }
+        }
+        public static void CreatePlayListControl(Playlist p)
+        {
+            LeftBarMenuOption leftBarMenuOption = new LeftBarMenuOption()
+            {
+                MenuTitle = p.Name,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
+                VerticalAlignment = System.Windows.VerticalAlignment.Top,
+            };
+            System.Windows.Controls.Grid.SetRow(leftBarMenuOption, 1);
+            System.Threading.Tasks.Task.Factory.StartNew(() => MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.PlaylistListContainer.Children.Add(leftBarMenuOption)));
         }
     }
 }

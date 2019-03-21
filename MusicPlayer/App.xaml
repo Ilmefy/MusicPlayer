@@ -9,6 +9,7 @@
             <FontFamily x:Key="RobotoB">pack://application:,,,/UI/Fonts/RobotoFont/#Roboto-Black</FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="UI/Styles/ScrollBar.xaml"/>
+                <ResourceDictionary Source="UI/Styles/ContextMenu.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

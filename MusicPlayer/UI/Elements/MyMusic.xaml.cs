@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WinForms = System.Windows.Forms;
@@ -19,6 +20,25 @@ namespace MusicPlayer.UI.Elements
 
         }
         private bool _MusicSearcher;
+
+        public enum Window
+        {
+            MainPage=0x01,
+            Favourite=0x02,
+            Playlist=0x04,
+
+        }
+
+
+
+        private Window _window;
+
+        public Window WindowMode
+        {
+            get { return _window; }
+            set { _window = value; }
+        }
+
 
         private bool OrderedAscending = false;
         public bool MusicSearcher
@@ -124,8 +144,9 @@ namespace MusicPlayer.UI.Elements
             string author = "";
             List<Source.Music.Track> tracks = new List<Source.Music.Track>();
             List<Source.Music.Track> already = References.trackCollection.Tracks;
-
+            int i = already.Count;
             string length = "";
+            
             foreach (string s in files)
             {
                 if (already.Where(c => c.Path == s).Any())
@@ -139,6 +160,7 @@ namespace MusicPlayer.UI.Elements
                 References.trackCollection.Tracks.Add(tr);
                 tr.Path = s;
                 tr.Length = length;
+                tr.ID = (uint)i;
                 tr.Title = title;
                 tr.Author = author;
                 tr.DateOfAdding = DateTime.Now;
@@ -153,7 +175,9 @@ namespace MusicPlayer.UI.Elements
 
                 };
                 StackPanel.Children.Add(se);
+                i++;
             }
+           
             Source.Music.TrackData.AddTrack(tracks);
         }
 

@@ -22,6 +22,7 @@ namespace MusicPlayer.Source.Music
         public static void UpdateData()
         {
             List<Track> tr = References.trackCollection.Tracks;
+            tr = tr.Distinct(new TrackDataEqualityComparer()).ToList();
             string data = Newtonsoft.Json.JsonConvert.SerializeObject(tr, Newtonsoft.Json.Formatting.Indented);
             System.IO.File.WriteAllText(Constants.TrackListPath, $"{{\"Tracks\":{data}}}");
         }

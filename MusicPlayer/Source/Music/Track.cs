@@ -10,6 +10,7 @@ namespace MusicPlayer.Source.Music
         public double LengthDouble { get; set; }
         public string Path { get; set; }
         private bool _favourite;
+        public uint ID { get; set; }
         public bool Favourite
         {
             get { return _favourite; }
@@ -17,30 +18,15 @@ namespace MusicPlayer.Source.Music
         }
         private void OnFavouriteChange()
         {
-            CreateTrack();
+            
         }
         public DateTime ToFavouriteAdded { get; set; }
         //Id of playlist
         public int[] BelongsToPlaylist { get; set;}
         public DateTime DateOfAdding { get; set; }
-        private void CreateTrack()
-        {
-            //Powodowało skopiowanie kontrolki w miejscu startowym
 
-            //if(_favourite)
-            //{
-            //    UI.Controls.SongElement se = new UI.Controls.SongElement()
-            //    {
-            //        Author = this.Author,
-            //        name = Title,
-            //        Track = this,
-            //        Length = this.Length,
-            //        Added = AddedToString(),
-            //    };
-            //    MainWindow.Instance._MyMusic.StackPanel.Children.Add(se);
-            //}
 
-        }
+        
         private string AddedToString()
         {
             string s = "";

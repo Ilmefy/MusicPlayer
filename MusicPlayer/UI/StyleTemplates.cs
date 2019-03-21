@@ -12,5 +12,7 @@ namespace MusicPlayer.UI
        static readonly SolidColorBrush AlreadyPlayedTrackBacground;
         // #00000000
         static readonly SolidColorBrush TrackElementBackground = (SolidColorBrush)(ColorConverter.ConvertFromString("#00000000"));
+        public static readonly SolidColorBrush LeftBar_PlaylistListElement = (SolidColorBrush)(ColorConverter.ConvertFromString("#00000000"));
+        
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MusicPlayer.Source;
+using MusicPlayer.Source.Playlist;
 
 namespace MusicPlayer
 {
@@ -19,9 +21,11 @@ namespace MusicPlayer
         private static Mp3 mp3;
         public enum Window
         {
-            Home=0,
-            Radio=1,
-            Search=2,
+            Home=0x01,
+            Radio=0x02,
+            Search=0x04,
+            Favourite=0x08,
+            Playlist=0x10,
         }
         public MainWindow()
         {
@@ -38,6 +42,7 @@ namespace MusicPlayer
             CurrentWindow = Window.Home;
             Task.Factory.StartNew(()=> MainWindow.Instance.Dispatcher.Invoke(() => Source.Radio.RadioInit.LoadData()));
             Task.Factory.StartNew(()=> MainWindow.Instance.Dispatcher.Invoke(()=> Source.Music.TrackInit.Init()));
+            Task.Factory.StartNew(()=> MainWindow.Instance.Dispatcher.Invoke(()=> Source.Playlist.PlaylistInit.Init()));
             Music m = new Music();
 
 
@@ -160,6 +165,33 @@ namespace MusicPlayer
             da.To = To;
             da.Duration = TimeSpan.FromSeconds(0.1f);
             (sender as Image).BeginAnimation(WidthProperty, da);
+        }
+
+        private void LeftBarPlaylist_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+           
+            //UI.UiManager.GeneratePlaylistControls();
+        }
+
+        private void MenuItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+
+        }
+
+        private void MenuItem_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //Prevent from adding more textBoxes
+            if (MainWindow.Instance.LeftBarContainer.Children.OfType<UI.Controls.CreatePlaylistPopUp_Name>().Count() > 0)
+                return;
+            var textBox = new UI.Controls.CreatePlaylistPopUp_Name();
+            textBox.Height = 30;
+            MainWindow.Instance.LeftBarContainer.Children.Add(textBox);
         }
     }
 }
